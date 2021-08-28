@@ -1,0 +1,16 @@
+Dependencies for Project 'Lab5', Target 'Target 1': (DO NOT MODIFY !)
+CompilerVersion: 5060750::V5.06 update 6 (build 750)::ARMCC
+F (.\main.c)(0x5E7A66C4)(-c --cpu Cortex-M4 -D__EVAL --li -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\Bobby\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\Device\ARM\ARMCM4\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="529" -DARMCM4-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (Inits.h)(0x5E77B8D8)
+I (IO.h)(0x5E77B8D8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9B7AD8)
+F (.\startup.s)(0x5E77B8D8)(--cpu Cortex-M4 --li --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_Target_1-IC:\Users\Bobby\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\Device\ARM\ARMCM4\Include-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 529" --pd "ARMCM4 SETA 1"--list .\listings\startup.lst --xref -o .\objects\startup.o --depend .\objects\startup.d)
+F (.\Inits.c)(0x5E77EF9B)(-c --cpu Cortex-M4 -D__EVAL --li -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\Bobby\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\Device\ARM\ARMCM4\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="529" -DARMCM4-o .\objects\inits.o --omf_browse .\objects\inits.crf --depend .\objects\inits.d)
+I (Inits.h)(0x5E77B8D8)
+I (tm4c123gh6pm.h)(0x5E77B8D8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9B7AD8)
+F (.\IO.c)(0x5E7A6D42)(-c --cpu Cortex-M4 -D__EVAL --li -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\Bobby\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\Device\ARM\ARMCM4\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="529" -DARMCM4-o .\objects\io.o --omf_browse .\objects\io.crf --depend .\objects\io.d)
+I (IO.h)(0x5E77B8D8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9B7AD8)
+I (tm4c123gh6pm.h)(0x5E77B8D8)
+F (.\tm4c123gh6pm.h)(0x5E77B8D8)()

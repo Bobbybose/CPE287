@@ -1,0 +1,106 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+    3 00000000                 THUMB
+    4 00000000                 EXPORT           delay
+    5 00000000                 EXPORT           delay_numTimes
+    6 00000000         
+    7 00000000         ;Be sure to export your created functions
+    8 00000000         
+    9 00000000 000208D5 
+                       DELAYVAL
+                               EQU              133333      ;Change to calculat
+                                                            ed value
+   10 00000000        0 
+                       numTimes
+                               RN               0
+   11 00000000         
+   12 00000000         delay_numTimes
+   13 00000000 B500            PUSH{LR}
+   14 00000002 F7FF FFFE       BL               delay
+   15 00000006 F85D EB04       POP{LR}
+   16 0000000A 1E40            SUBS             numTimes, numTimes, #1
+   17 0000000C D1FE            BNE              delay_numTimes
+   18 0000000E 4770            BX               LR
+   19 00000010         
+   20 00000010         delay
+   21 00000010 4901            LDR              R1, =DELAYVAL
+   22 00000012         delay_loop
+   23 00000012         ;Add Part 2 code here
+   24 00000012 1E49            SUBS             R1, R1, #1  ; R0 = R0 - 1
+   25 00000014 D1FD            BNE              delay_loop  ; repeat until R0 =
+                                                            = 0
+   26 00000016 4770            BX               LR
+   27 00000018         
+   28 00000018         
+   29 00000018                 ALIGN
+   30 00000018                 END
+              000208D5 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4 --apcs=interw
+ork --depend=.\objects\delay.d -o.\objects\delay.o -I.\RTE\_Target_1 -IC:\Users
+\Bobby\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\Device\ARM\ARMCM4\Include -IC:\K
+eil_v5\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VER
+SION SETA 529" --predefine="ARMCM4 SETA 1" --list=.\listings\delay.lst delay.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 2 in file delay.s
+   Uses
+      None
+Comment: .text unused
+delay 00000010
+
+Symbol: delay
+   Definitions
+      At line 20 in file delay.s
+   Uses
+      At line 4 in file delay.s
+      At line 14 in file delay.s
+
+delay_loop 00000012
+
+Symbol: delay_loop
+   Definitions
+      At line 22 in file delay.s
+   Uses
+      At line 25 in file delay.s
+Comment: delay_loop used once
+delay_numTimes 00000000
+
+Symbol: delay_numTimes
+   Definitions
+      At line 12 in file delay.s
+   Uses
+      At line 5 in file delay.s
+      At line 17 in file delay.s
+
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+DELAYVAL 000208D5
+
+Symbol: DELAYVAL
+   Definitions
+      At line 9 in file delay.s
+   Uses
+      At line 21 in file delay.s
+Comment: DELAYVAL used once
+1 symbol
+341 symbols in table

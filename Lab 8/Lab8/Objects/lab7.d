@@ -1,0 +1,9 @@
+.\objects\lab7.o: lab7.c
+.\objects\lab7.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\lab7.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\lab7.o: inc/hw_memmap.h
+.\objects\lab7.o: driverlib/sysctl.h
+.\objects\lab7.o: driverlib/uart.h
+.\objects\lab7.o: utils/uartstdio.h
+.\objects\lab7.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\lab7.o: inc/tm4c123gh6pm.h

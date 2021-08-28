@@ -1,0 +1,10 @@
+.\objects\systick.o: systick.c
+.\objects\systick.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\systick.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\systick.o: inc/hw_memmap.h
+.\objects\systick.o: driverlib/sysctl.h
+.\objects\systick.o: driverlib/uart.h
+.\objects\systick.o: utils/uartstdio.h
+.\objects\systick.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\systick.o: inc/tm4c123gh6pm.h
+.\objects\systick.o: systick.h

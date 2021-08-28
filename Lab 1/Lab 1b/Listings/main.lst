@@ -1,0 +1,382 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000 400253FC 
+                       GPIO_PORTF_DATA_R
+                               EQU              0x400253FC
+    3 00000000         
+    4 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+    5 00000000                 THUMB
+    6 00000000                 EXPORT           Start
+    7 00000000                 EXPORT           Example_Function
+    8 00000000                 EXPORT           Part3_Function
+    9 00000000                 EXPORT           Part4_Function
+   10 00000000                 EXPORT           Part5_Function
+   11 00000000                 IMPORT           delay
+   12 00000000                 IMPORT           leds_off
+   13 00000000                 IMPORT           PortF_Init
+   14 00000000                 IMPORT           Example
+   15 00000000                 IMPORT           Part3
+   16 00000000                 IMPORT           Part4
+   17 00000000                 IMPORT           Part5
+   18 00000000         
+   19 00000000         Start
+   20 00000000 F7FF FFFE       BL               PortF_Init  ; Initialize the LE
+                                                            Ds and Pushbuttons
+   21 00000004 F000 F81C       BL               debug       ; Useful for parts 
+                                                            2 and 3
+   22 00000008         loop
+   23 00000008 492C            LDR              R1, =GPIO_PORTF_DATA_R
+   24 0000000A 6808            LDR              R0, [R1]
+   25 0000000C F000 0011       AND              R0, #0x11   ;Get just the pushb
+                                                            utton values
+   26 00000010 2811            CMP              R0, #0x11   ;No buttons pressed
+                                                            ?
+   27 00000012 D102            BNE              checkSW1
+   28 00000014 F7FF FFFE       BL               Example
+   29 00000018 E7F6            B                loop
+   30 0000001A         checkSW1
+   31 0000001A 2801            CMP              R0, #0x01   ;SW1 pressed?
+   32 0000001C D102            BNE              checkSW2
+   33 0000001E F7FF FFFE       BL               Part3
+   34 00000022 E006            B                blink
+   35 00000024         checkSW2
+   36 00000024 2810            CMP              R0, #0x10   ;SW2 pressed?
+   37 00000026 D102            BNE              both
+   38 00000028 F7FF FFFE       BL               Part4
+   39 0000002C E001            B                blink
+   40 0000002E         both
+   41 0000002E F7FF FFFE       BL               Part5       ;Both must be press
+                                                            ed
+   42 00000032         
+   43 00000032         ;Create blinking effect
+   44 00000032         blink
+   45 00000032 F7FF FFFE       BL               delay
+   46 00000036 F7FF FFFE       BL               leds_off
+   47 0000003A F7FF FFFE       BL               delay
+   48 0000003E         
+   49 0000003E E7E3            B                loop
+   50 00000040         
+   51 00000040         
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   52 00000040         
+   53 00000040         debug
+   54 00000040         ;Place parts 1 and 2 here
+   55 00000040         
+   56 00000040 F04F 0008       LDR              R0, =0x00000008
+   57 00000044         
+   58 00000044 F06F 0102       LDR              R1, =0xFFFFFFFD
+   59 00000048         
+   60 00000048 F06F 4200       LDR              R2, =0x7FFFFFFF
+   61 0000004C         
+   62 0000004C 1843            ADDS             R3, R0, R1
+   63 0000004E 1A03            SUBS             R3, R0, R0
+   64 00000050 1883            ADDS             R3, R0, R2
+   65 00000052 1A8B            SUBS             R3, R1, R2
+   66 00000054 18D3            ADDS             R3, R2, R3
+   67 00000056         
+   68 00000056         
+   69 00000056 F04F 5700       MOV              R7, #0x20000000
+   70 0000005A F107 0702       ADD              R7, #2
+   71 0000005E         
+   72 0000005E 683E            LDR              R6, [R7]
+   73 00000060 883E            LDRH             R6, [R7]
+   74 00000062 783E            LDRB             R6, [R7]
+   75 00000064 F9B7 6000       LDRSH            R6, [R7]
+   76 00000068 F997 6000       LDRSB            R6, [R7]
+   77 0000006C         
+   78 0000006C 4770            BX               LR          ;Returns to main fu
+                                                            nction
+   79 0000006E         
+   80 0000006E         
+   81 0000006E         
+   82 0000006E         ; Returns Z = A+B
+   83 0000006E         ; A and B are in R0 and R1, respectively
+   84 0000006E         ; Z should be placed in R0
+   85 0000006E         Example_Function
+   86 0000006E 4408            ADD              R0, R0, R1  ;Comment out this i
+                                                            nstruction to see t
+                                                            he Example fail
+   87 00000070 4770            BX               LR
+   88 00000072         
+   89 00000072         
+   90 00000072         ; Should return Z = (A << 2)|(B & 15)
+   91 00000072         ; Assume A and B are in R0 and R1, respectively
+   92 00000072         ; The value of Z should be placed in R0 at the end
+   93 00000072         Part3_Function
+   94 00000072         
+   95 00000072         ;Your code here
+   96 00000072         
+   97 00000072 EA4F 0080       LSL              R0, R0, #2
+   98 00000076 F001 010F       AND              R1, R1, #15
+   99 0000007A EA40 0001       ORR              R0, R0, R1
+  100 0000007E         
+  101 0000007E         
+  102 0000007E 4770            BX               LR
+  103 00000080         
+  104 00000080         
+  105 00000080         ; Should return Z = ((A + B) + (A - B)) | (A << B)
+  106 00000080         ; Assume A and B are in R0 and R1, respectively
+  107 00000080         ; The value of Z should be placed in R0 at the end
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+  108 00000080         Part4_Function
+  109 00000080         
+  110 00000080         ;Your code here
+  111 00000080         
+  112 00000080 EB00 0201       ADD              R2, R0, R1
+  113 00000084         
+  114 00000084 EBA0 0301       SUB              R3, R0, R1
+  115 00000088         
+  116 00000088 441A            ADD              R2, R2, R3
+  117 0000008A         
+  118 0000008A FA00 F301       LSL              R3, R0, R1
+  119 0000008E         
+  120 0000008E EA42 0003       ORR              R0, R2, R3
+  121 00000092         
+  122 00000092 4770            BX               LR
+  123 00000094         
+  124 00000094         
+  125 00000094         ; Should return Z = X + Y
+  126 00000094         ; Where X = ((A*8)|(B*4)|(C*2))
+  127 00000094         ; and Y = ((B xor 2)|(C xor 4)
+  128 00000094         ; Assume A, B, and C are in R0, R1, and R2, respectively
+                       
+  129 00000094         ; The value of Z should be placed in R0 at the end
+  130 00000094         Part5_Function
+  131 00000094         
+  132 00000094         ;Your code here
+  133 00000094         
+  134 00000094 EA4F 03C0       LSL              R3, R0, #3
+  135 00000098 EA4F 0481       LSL              R4, R1, #2
+  136 0000009C EA4F 0542       LSL              R5, R2, #1
+  137 000000A0         
+  138 000000A0 EA43 0604       ORR              R6, R3, R4
+  139 000000A4 EA46 0605       ORR              R6, R6, R5  ;R6 is X
+  140 000000A8         
+  141 000000A8         
+  142 000000A8 F081 0302       EOR              R3, R1, #2
+  143 000000AC F082 0404       EOR              R4, R2, #4
+  144 000000B0 EA43 0704       ORR              R7, R3, R4  ; R7 is Y
+  145 000000B4         
+  146 000000B4 EB06 0007       ADD              R0, R6, R7
+  147 000000B8         
+  148 000000B8 4770            BX               LR
+  149 000000BA         
+  150 000000BA         
+  151 000000BA         
+  152 000000BA 00 00           ALIGN                        ; make sure the end
+                                                             of this section is
+                                                             aligned
+  153 000000BC                 END                          ; end of file
+              400253FC 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4 --apcs=interw
+ork --depend=.\objects\main.d -o.\objects\main.o -I.\RTE\_Target_1 -IC:\Users\B
+obby\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\Device\ARM\ARMCM4\Include -IC:\Kei
+l_v5\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSI
+ON SETA 529" --predefine="ARMCM4 SETA 1" --list=.\listings\main.lst main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 4 in file main.s
+   Uses
+      None
+Comment: .text unused
+Example_Function 0000006E
+
+Symbol: Example_Function
+   Definitions
+      At line 85 in file main.s
+   Uses
+      At line 7 in file main.s
+Comment: Example_Function used once
+Part3_Function 00000072
+
+Symbol: Part3_Function
+   Definitions
+      At line 93 in file main.s
+   Uses
+      At line 8 in file main.s
+Comment: Part3_Function used once
+Part4_Function 00000080
+
+Symbol: Part4_Function
+   Definitions
+      At line 108 in file main.s
+   Uses
+      At line 9 in file main.s
+Comment: Part4_Function used once
+Part5_Function 00000094
+
+Symbol: Part5_Function
+   Definitions
+      At line 130 in file main.s
+   Uses
+      At line 10 in file main.s
+Comment: Part5_Function used once
+Start 00000000
+
+Symbol: Start
+   Definitions
+      At line 19 in file main.s
+   Uses
+      At line 6 in file main.s
+Comment: Start used once
+blink 00000032
+
+Symbol: blink
+   Definitions
+      At line 44 in file main.s
+   Uses
+      At line 34 in file main.s
+      At line 39 in file main.s
+
+both 0000002E
+
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+Symbol: both
+   Definitions
+      At line 40 in file main.s
+   Uses
+      At line 37 in file main.s
+Comment: both used once
+checkSW1 0000001A
+
+Symbol: checkSW1
+   Definitions
+      At line 30 in file main.s
+   Uses
+      At line 27 in file main.s
+Comment: checkSW1 used once
+checkSW2 00000024
+
+Symbol: checkSW2
+   Definitions
+      At line 35 in file main.s
+   Uses
+      At line 32 in file main.s
+Comment: checkSW2 used once
+debug 00000040
+
+Symbol: debug
+   Definitions
+      At line 53 in file main.s
+   Uses
+      At line 21 in file main.s
+Comment: debug used once
+loop 00000008
+
+Symbol: loop
+   Definitions
+      At line 22 in file main.s
+   Uses
+      At line 29 in file main.s
+      At line 49 in file main.s
+
+12 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTF_DATA_R 400253FC
+
+Symbol: GPIO_PORTF_DATA_R
+   Definitions
+      At line 2 in file main.s
+   Uses
+      At line 23 in file main.s
+Comment: GPIO_PORTF_DATA_R used once
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+Example 00000000
+
+Symbol: Example
+   Definitions
+      At line 14 in file main.s
+   Uses
+      At line 28 in file main.s
+Comment: Example used once
+Part3 00000000
+
+Symbol: Part3
+   Definitions
+      At line 15 in file main.s
+   Uses
+      At line 33 in file main.s
+Comment: Part3 used once
+Part4 00000000
+
+Symbol: Part4
+   Definitions
+      At line 16 in file main.s
+   Uses
+      At line 38 in file main.s
+Comment: Part4 used once
+Part5 00000000
+
+Symbol: Part5
+   Definitions
+      At line 17 in file main.s
+   Uses
+      At line 41 in file main.s
+Comment: Part5 used once
+PortF_Init 00000000
+
+Symbol: PortF_Init
+   Definitions
+      At line 13 in file main.s
+   Uses
+      At line 20 in file main.s
+Comment: PortF_Init used once
+delay 00000000
+
+Symbol: delay
+   Definitions
+      At line 11 in file main.s
+   Uses
+      At line 45 in file main.s
+      At line 47 in file main.s
+
+leds_off 00000000
+
+Symbol: leds_off
+   Definitions
+      At line 12 in file main.s
+   Uses
+      At line 46 in file main.s
+Comment: leds_off used once
+7 symbols
+355 symbols in table
